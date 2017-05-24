@@ -30,12 +30,14 @@ namespace Chatter.Controllers
 
 
         public JsonResult TestJson()
-        {
+        {   //SQL query used to generate LINQ query:
+           
             /* SELECT Chat.Message, AspNetUsers.UserName
              FROM Chat
              INNER JOIN AspNetUsers ON Chat.UserID = AspNetUsers.Id
              ORDER BY Chat.Timestamp Desc;*/
-
+            
+            //LINQ query generated from above SQL query
             var chats = from Chats in db.Chats
                         orderby
                           Chats.Timestamp descending

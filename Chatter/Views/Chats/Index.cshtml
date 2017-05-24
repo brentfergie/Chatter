@@ -24,7 +24,9 @@
 
                 //post method sending message to controller
                 $.post("@Url.Action("PostChats", "Chats")", {"Message": postMessage})
- 
+                
+                //Clears input box
+                $('#postMessage').val("");
             }); 
              
             $("#getChats").click(myFunction);
@@ -48,7 +50,8 @@
                 })
             }
 
-
+            //Function to refresh page
+            setInterval('window.location.reload()', 60000);
 
         })
 
