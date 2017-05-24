@@ -4,35 +4,54 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Chatter</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <div id="response"></div>
+
+<input id="postAdd" type="text"  placeholder="Chat Here" />
+
+<button id="postChats" class="btn btn-primary">Post Chat</button>
+
 <button id="getChats" class="btn btn-primary">Get Chats</button>
 
 @section Scripts {
     <script>
         $(document).ready(function () {
 
+            $('#postChats').click(function () {
 
-            $("#getChats").click(function () {
+                var postMessage = $('#postAdd').val() //variable for user chat message
+
+                //post method sending message to controller
+                $.post("@Url.Action("PostChats", "Chats")", {"Message": postMessage})
+ 
+            }); 
+             
+            $("#getChats").click(myFunction);
+
+            function myFunction() {
                 $.get("@Url.Action("TestJson","Chats")", function (serverResponse) {
                     var jsonTest = JSON.parse(serverResponse);
                     console.log(jsonTest);
-                    //$("#response").text(jsonTest.firstName + " " + jsonTest.lastName);
 
+                    var ul = $("<ul>", { id: "messageList", "class": "bg-default" });
+                    ul.click(function () { alert("ul was clicked!"); });
+                    $("#response").append(ul);
+
+                    $.each(jsonTest, function (inx, val) {
+                        var myBgClass = ["bg-info", "bg-default"];
+                        var li = $("<li>", { id: "li" + inx, "class": myBgClass[inx % 2] });
+                        li.text(val.Message);
+                        li.click(function () { alert("my index is " + inx); });
+                        ul.append(li);
+                    });
                 })
             }
 
-        );
 
 
-            $("#postChats").click(
+        })
 
-                );
-        }
-        );
+
     </script>
-}
+    }
